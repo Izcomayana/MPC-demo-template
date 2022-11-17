@@ -99,7 +99,7 @@
           <input type="number" v-model="PostShares"  placeholder="0" required>
         </div>
 
-        <button :disabled="!entityName || !regNo || !regAddress || !regCountry || !PostShares" @click="subscriber" class="next-btn">Next</button>
+        <button :disabled="!entityName || !regNo || !regAddress || !regCountry || !PostShares" @click="nextComp" class="next-btn">Next</button>
       </form>
 
       <form @submit.prevent="" class="individual-form" v-if="showIndividualForm">
@@ -120,8 +120,7 @@
           <input type="number" placeholder="0" v-model="PostShares" required>
         </div>
 
-          <button :disabled="!firstName || !lastName || !address || !PostShares" @click="subscribe" class="next-btn">Next</button>
-          
+        <button :disabled="!firstName || !lastName || !PostShares" @click="nextComp" class="next-btn">Next</button>
       </form>
     </div>
 
@@ -141,6 +140,17 @@
         <b>{{ firstName }}</b> <b>{{ lastName }}</b> of <b>{{ regAddress }}</b> (hereinafter referred to as "" which expression shall where the context so admits, 
         include successors-in-title and assigns) of the second part;
       </p>
+      
+      <span class="fs-6 fw-bold">AND</span>
+      <br> <br>
+      
+      <span class="sponsor">
+        <p>
+          <b>{{ companyName }}</b>, a <b>{{ companyType }}</b> company, incorporated under the laws of Nigeria with RC Number <b>{{ regNo }}</b> having its registered address at 
+          <b>{{ address }}</b> currently based in <b>{{ regCountry }}</b> (hereinafter referred to as the “Company” which expression shall where the context 
+          so permits include its successors-in-title and assigns) of the second part;
+        </p> 
+      </span>
       <br> <br> <br>
     </div>
   </div>
@@ -150,15 +160,17 @@
   import { ref } from "@vue/reactivity";
 
   export default {
-    setup () {
+    setup (props, context) {
       const showlegalEntityForm = ref(true);
       const showIndividualForm = ref(false);
+
+      const nextComp = () => {
+        context.emit('next')
+      }
 
       const legalEntity = () => {
         showlegalEntityForm.value = true;
         showIndividualForm.value = false;
-        
-        console.log(subscriberType.value)
       }
 
       const individual = () => {
@@ -180,6 +192,7 @@
 
 
       return {
+        nextComp,
         showlegalEntityForm,
         showIndividualForm,
         legalEntity,
@@ -363,7 +376,8 @@
     width: 40%;
     position: fixed;
     right: 5px;
-    font-size: 0.9rem;
+    margin-top: -4rem;
+    font-size: 0.8rem;
   }
 
   @media (max-width: 992px) {

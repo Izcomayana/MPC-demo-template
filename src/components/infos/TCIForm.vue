@@ -44,9 +44,10 @@
         </div>
 
         <button 
+          class="next-btn"
           :disabled="!companyName || !regAddress || !regNo || !regCountry 
           || !definedAs || !companyBusiness || !authShares || !sharePrice"
-          class="next-btn"
+          @click="nextComp"
         >Next</button>
       </form>
     </div>
@@ -57,6 +58,24 @@
       </span>
       <br> <br>
       <span class="fs-6 fw-bold">BY AND AMONG</span>
+      <br> <br>
+      <p>
+        , a , incorporated under the laws of Nigeria with RC Number having its registered address at 
+        (hereinafter referred to as the “Company” which expression shall where the context so permits include its successors-in-title and assigns) 
+        of the first part;
+      </p>
+      <span class="fs-6 fw-bold">AND</span>
+      <br> <br>
+      <p v-if="showlegalEntityForm">
+        <b>{{ companyName }}</b>, a <b>{{ companyType }}</b> company, incorporated under the laws of Nigeria with RC Number <b>{{ regNo }}</b> having its registered address at 
+        <b>{{ address }}</b> currently based in <b>{{ regCountry }}</b> (hereinafter referred to as the “Company” which expression shall where the context 
+        so permits include its successors-in-title and assigns) of the second part;
+      </p> 
+      <p>
+        <b>{{ firstName }}</b> <b>{{ lastName }}</b> of <b>{{ address }}</b> (hereinafter referred to as "" which expression shall where the context so admits, 
+        include successors-in-title and assigns) of the second part;
+      </p>
+      <span class="fs-6 fw-bold">AND</span>
       <br> <br>
       <p>
         <b>{{ companyName }}</b>, a <b>{{ entityType }}</b>, incorporated under the laws of <b>{{ regCountry }}</b> with RC Number <b>{{ regNo }}</b> having its registered address at 
@@ -72,7 +91,7 @@
   import { ref } from "vue";
 
   export default {
-    setup () {
+    setup (props, context) {
       const companyName = ref("");
       const regAddress = ref("");
       const regNo = ref();
@@ -83,6 +102,10 @@
       const authShares = ref("");
       const sharePrice = ref();
 
+      const nextComp = () => {
+        context.emit('next')
+      }
+
       return {
         companyName,
         regAddress,
@@ -92,7 +115,8 @@
         entityType,
         companyBusiness,
         authShares,
-        sharePrice
+        sharePrice,
+        nextComp
       }
     }
   }

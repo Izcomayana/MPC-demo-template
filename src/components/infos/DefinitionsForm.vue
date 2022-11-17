@@ -5,29 +5,44 @@
       <form @submit.prevent="" class="legal-entity-form">
         <div class="form">
           <label>Defined Term*</label>
-          <input v-model="definedTerm" type="text" placeholder="Ex: Oluwapelumi Sotoyinbo" required>
+          <input v-model="term" type="text" placeholder="Ex: Oluwapelumi Sotoyinbo" required>
         </div>
         <div class="form">
           <label>Meaning*</label>
           <textarea v-model="meaning" cols="10" rows="5" required></textarea>
         </div>
-
-        <button :disabled="!definedTerm || !meaning">Next</button>
+        <button class="next-btn" type="submit" @click="addDefinition">Insert Condition <i class="bi bi-forward"></i></button>
       </form>
+        <button :disabled="!term || !meaning" class="next-btn" @click="nextComp">Next</button>
     </div>
   
     <div class="agreement-sheet">
       <span class="fs-6 fw-bold">
-        THIS SHAREHOLDERS' AGREEMENT is made this ____ day of __________ 20____
+        1 DEFINITIONS AND INTERPRETATION
       </span>
       <br> <br>
-      <span class="fs-6 fw-bold">BY AND AMONG</span>
-      <br> <br>
       <p>
-        <b>{{ companyName }}</b>, a <b>{{ entityType }}</b>, incorporated under the laws of <b>{{ regCountry }}</b> with RC Number <b>{{ regNo }}</b> having its registered address at 
-        <b>{{ regAddress}}</b> (hereinafter referred to as the “Company” which expression shall where the context so permits include its successors-in-title and assigns) 
-        of the first part;
+        Unless the context otherwise requires, in this Agreement, 
+        the Recitals and Schedules hereto, the following expressions 
+        shall have the meanings respectively assigned to them:
       </p>
+      <!-- On tables -->
+      <div>
+        <table class="table table-hover table-bordered">
+          <thead class="table-light">
+            <tr>
+              <th scope="col">Term</th>
+              <th scope="col">Meaning</th>
+            </tr>
+          </thead>
+          <tbody v-if="showTable">
+            <tr v-for="(definition, index) in definitions" :key="index">
+              <td>{{ definition.term }} <i class="bi bi-trash icon"  @click="deleteDefinition(index)"></i></td>
+              <td>{{ definition.meaning }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <br> <br> <br>
     </div>
   </div>
@@ -37,49 +52,47 @@
   import { ref } from "vue";
 
   export default {
-    setup () {
-      const definedTerm = ref("");
+    setup (props, context) {
+      const term = ref("");
       const meaning = ref("");
 
+      const nextComp = () => {
+        context.emit('next')
+      }
+
+      const definitions = ref([
+        { term: "", meaning: "" }
+      ]);
+
+      const showTable = ref(false);
+
+      definitions.value.shift()
+      const addDefinition = () => {
+        if (term.value !== "" & meaning.value !== "") {
+          showTable.value = true
+          definitions.value.push({
+            term: term.value,
+            meaning: meaning.value,
+          });
+
+          term.value = ""
+          meaning.value = ""
+        }
+      }
+
+      const deleteDefinition = (index) => {
+        definitions.value.splice(index, 1);
+      }
+
       return {
-        definedTerm,
-        meaning
+        term,
+        meaning,
+        nextComp,
+        definitions,
+        showTable,
+        addDefinition,
+        deleteDefinition
       }
     }
   }
 </script>
-
-<style>
-  /* .legal-entity {
-    margin-right: 2rem;
-  }
-
-  .legal-entity-form {
-    margin-top: 1rem;
-  }
-  
-  .form {
-    margin-top: 1rem;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .form label {
-    margin-bottom: 0.25rem;
-  }
-
-  .form input {
-    width: 16rem;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid rgb(92, 92, 92);
-    font-size: 0.9rem;
-  }
-
-  .form textarea {
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid rgb(92, 92, 92);
-    width: 75%;
-  } */
-</style>

@@ -12,7 +12,7 @@
           <textarea v-model="newInfo" cols="10" rows="5" required></textarea>
         </div>
 
-        <button :disabled="!newReservedMatter || !newInfo" class="next-btn">Next</button>
+        <button class="next-btn" :disabled="!newReservedMatter || !newInfo" @click="nextComp">Next</button>
       </form>
     </div>
 
@@ -24,8 +24,8 @@
       <span class="fs-6 fw-bold">BY AND AMONG</span>
       <br> <br>
       <p>
-        <b>{{ companyName }}</b>, a <b>{{ entityType }}</b>, incorporated under the laws of <b>{{ regCountry }}</b> with RC Number <b>{{ regNo }}</b> having its registered address at 
-        <b>{{ regAddress}}</b> (hereinafter referred to as the “Company” which expression shall where the context so permits include its successors-in-title and assigns) 
+        <b></b>, a <b></b>, incorporated under the laws of <b></b> with RC Number <b></b> having its registered address at 
+        <b></b> (hereinafter referred to as the “Company” which expression shall where the context so permits include its successors-in-title and assigns) 
         of the first part;
       </p>
       <br> <br> <br>
@@ -37,49 +37,19 @@
   import { ref } from "vue"
 
   export default {
-    setup () {
+    setup (props, context) {
     const newReservedMatter = ref("");
     const newInfo = ref("");
+
+    const nextComp = () => {
+      context.emit('next')
+    }
   
       return {
         newReservedMatter,
-        newInfo
+        newInfo,
+        nextComp
       }
     }
   }
 </script>
-
-<style>
-  /* .legal-entity {
-    margin-right: 2rem;
-  }
-
-  .legal-entity-form {
-    margin-top: 1rem;
-  }
-  
-  .form {
-    margin-top: 1rem;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .form label {
-    margin-bottom: 0.25rem;
-  }
-
-  .form input {
-    width: 16rem;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid rgb(92, 92, 92);
-    font-size: 0.9rem;
-  }
-
-  .form textarea {
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid rgb(92, 92, 92);
-    width: 75%;
-  } */
-</style>

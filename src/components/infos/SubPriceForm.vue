@@ -6,30 +6,47 @@
         <div class="entity-type form">
           <label for="Entity Type">What is the subscription currency?*</label>
           <select name="Entity Type" v-model="selected" required>
-            <option value="" disabled selected>{{ selectedText }}</option>
-            <option value={NGN}>NGN - Naira</option>
-            <option @click="exchangeRate"  value={USA} selected>$ - United Stated dollars</option>
-            <option @click="exchangeRate" value={GBP}>GBP - Great British Pounds</option>
+            <option value="" disabled selected>Select an option</option>
+            <option value="NGN">NGN - Naira</option>
+            <option value="USA">$ - United Stated dollars</option>
+            <option value="GBP">GBP - Great British Pounds</option>
           </select>
         </div>
 
-        <!-- <selectInput :options="newOptions" /> -->
-
-        <div class="entity-type form" v-if="showExchangeRate">
-          <label for="Entity Type">What is the subscription currency?*</label>
+        <!-- <div class="entity-type form" v-if="showExchangeRate"> -->
+        <div class="entity-type form" v-if="selected !== 'NGN'">
+          <label for="Entity Type">What is the agreed exchange rate?*</label>
           <select name="Entity Type">
-            <option value="NGN - Naira">NGN - Naira</option>
-            <option value="$ - United Stated dollars">$ - United Stated dollars</option>
-            <option value="GBP - Great British Pounds">GBP - Great British Pounds</option>
+            <option value="CBN rate published at closing of the Business Day">
+              Official Rate of the Central Bank of Nigeria published by the
+              Central Bank of Nigeria at closing of the Business Day 
+              immediately preceding the relevant date
+            </option>
+            <option value="CBN rate published at 5pm">
+              Official Rate of the Central Bank of Nigeria published by the 
+              Central Bank of Nigeria at 5:00 p.m. of the relevant date
+            </option>
+            <option value="NAFEX published by CBN at closing of the Business Day">
+              The Nigerian Autonomous Foreign Exchange Rate Fixing (NAFEX) 
+              published by the Central Bank of Nigeria at closing of the 
+              Business Day immediately preceding the relevant date
+            </option>
+            <option value="NAFEX rate published at 5pm">
+              The Nigerian Autonomous Foreign Exchange Rate Fixing (NAFEX) 
+              published by the Central Bank of Nigeria at 5:00 p.m. of the relevant date
+            </option>
+            <option value="others">
+              Other - applicable rates agreed between the Parties
+            </option>
           </select>
         </div>
 
         <div class="form">
           <label>What is the Subscription Price?*</label>
-          <input v-model="subPrice" type="text" placeholder="Ex: $700">
+          <input v-model="subPrice" type="text" placeholder="Ex: $700" required>
         </div>
 
-        <button :disabled="!subPrice" class="next-btn">Next</button>
+        <button class="next-btn" :disabled="!subPrice" @click="nextComp">Next</button>
       </form>
     </div>
 
@@ -41,8 +58,8 @@
       <span class="fs-6 fw-bold">BY AND AMONG</span>
       <br> <br>
       <p>
-        <b>{{ companyName }}</b>, a <b>{{ entityType }}</b>, incorporated under the laws of <b>{{ regCountry }}</b> with RC Number <b>{{ regNo }}</b> having its registered address at 
-        <b>{{ regAddress}}</b> (hereinafter referred to as the “Company” which expression shall where the context so permits include its successors-in-title and assigns) 
+        <b></b>, a <b></b>, incorporated under the laws of <b></b> with RC Number <b></b> having its registered address at 
+        <b></b> (hereinafter referred to as the “Company” which expression shall where the context so permits include its successors-in-title and assigns) 
         of the first part;
       </p>
       <br> <br> <br>
@@ -53,37 +70,27 @@
 <script>
   import { ref } from "vue"
 
-  import selectInput from "../inputs/Select.vue";
-
   export default {
-    components: {
-      selectInput
-    },
-    setup () {
+    setup (props, context) {
       const selected = ref(null);
-      const selectedText = ref("Select an option");
 
-      const showExchangeRate = ref(false)
+      const subPrice = ref("");
 
-      const exchangeRate = () => {
-        showExchangeRate.value = true
+      const nextComp = () => {
+        context.emit('next')
       }
 
-      const subPrice = ref();
-
-      const newOptions = ref([
-        { text: 'Four', value: 'D' },
-        { text: 'Five', value: 'E' },
-        { text: 'Six', value: 'F' }
-      ])
       return {
-        newOptions,
         selected,
-        selectedText,
-        showExchangeRate,
-        exchangeRate,
-        subPrice
+        subPrice,
+        nextComp
       }
     }
   }
 </script>
+
+<style>
+  .entity-type select option {
+    width: 5rem;
+  }
+</style>

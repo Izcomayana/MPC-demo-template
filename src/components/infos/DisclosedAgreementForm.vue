@@ -7,23 +7,27 @@
           <label>Agreement description*</label>
           <textarea v-model="agreementDescription" cols="10" rows="5" required></textarea>
         </div>
-
-        <button :disabled="!agreementDescription" class="next-btn">Next</button>
+        <button class="next-btn" type="submit" @click="addDisclosure">Insert Condition <i class="bi bi-forward"></i></button>
       </form>
+      <button class="next-btn" :disabled="!agreementDescription" @click="nextComp">Next</button>
     </div>
 
     <div class="agreement-sheet">
       <span class="fs-6 fw-bold">
-        THIS SHAREHOLDERS' AGREEMENT is made this ____ day of __________ 20____
+        10. SPECIFIC INDEMNITIES
       </span>
       <br> <br>
-      <span class="fs-6 fw-bold">BY AND AMONG</span>
-      <br> <br>
       <p>
-        <b>{{ companyName }}</b>, a <b>{{ entityType }}</b>, incorporated under the laws of <b>{{ regCountry }}</b> with RC Number <b>{{ regNo }}</b> having its registered address at 
-        <b>{{ regAddress}}</b> (hereinafter referred to as the “Company” which expression shall where the context so permits include its successors-in-title and assigns) 
-        of the first part;
+        10.1 Notwithstanding any Disclosures made, the Sponsors shall indemnify the Investor and 
+        keep it indemnified against all Losses suffered by the Investor or the Company whatsoever 
+        (together with all costs (including legal and settlement costs), charges, interest, 
+        penalties and expenses relating thereto), and shall pay to the Investor a sum equal 
+        thereto and/or make appropriate and proportionate adjustments to the entry valuation, 
+        as a result of or in connection with:
       </p>
+      <div v-for="(disclosure, index) in disclosures" :key="index">
+        <p>{{ index + 11.1 }} {{ disclosure.description }}</p>
+      </div>
       <br> <br> <br>
     </div>
   </div>
@@ -33,47 +37,31 @@
   import { ref } from "vue"
 
   export default {
-    setup () {
+    setup (props, context) {
       const agreementDescription = ref("");
 
+      const nextComp = () => {
+        context.emit('next')
+      }
+
+      const disclosures = ref([
+        { description: "breach of a Tax Covenant or Tax Warranty" }
+      ]);
+
+      const addDisclosure = () => {
+        if (agreementDescription !== "") {
+          disclosures.value.push({
+            description: agreementDescription.value
+          })
+        }
+      }
+
       return {
-        agreementDescription
+        agreementDescription,
+        nextComp,
+        disclosures,
+        addDisclosure
       }
     }
   }
 </script>
-
-<style>
-  /* .legal-entity {
-    margin-right: 2rem;
-  }
-
-  .legal-entity-form {
-    margin-top: 1rem;
-  }
-  
-  .form {
-    margin-top: 1rem;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .form label {
-    margin-bottom: 0.25rem;
-  }
-
-  .form input {
-    width: 16rem;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid rgb(92, 92, 92);
-    font-size: 0.9rem;
-  }
-
-  .form textarea {
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid rgb(92, 92, 92);
-    width: 75%;
-  } */
-</style>

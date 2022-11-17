@@ -66,9 +66,10 @@
         </div>
 
         <button 
+          class="next-btn"
           :disabled="!companyName || !companyType || !address 
           || !regNo || !regCountry || !definedAs || !preShares || !postShares"
-          class="next-btn"
+          @click="nextComp"
           >Next</button>
       </form>
 
@@ -98,7 +99,10 @@
           <input v-model="postShares" type=" number" placeholder="Ex: 60" required>
         </div>
 
-        <button :disabled="!firstName || !lastName || !address || !definedAs || !preShares || !postShares" class="next-btn">Next</button>
+        <button 
+        class="next-btn"
+        :disabled="!firstName || !lastName || !address || !definedAs || !preShares || !postShares" 
+        @click="nextComp">Next</button>
       </form>
     </div>
 
@@ -110,17 +114,19 @@
       <span class="fs-6 fw-bold">BY AND AMONG</span>
       <br> <br>
       <p>
-        , a , incorporated under the laws of Nigeria with RC Number having its registered address at 
+        , a , incorporated under the laws of with RC Number having its registered address at 
         (hereinafter referred to as the “Company” which expression shall where the context so permits include its successors-in-title and assigns) 
         of the first part;
       </p>
-      <br> 
+      
       <span class="fs-6 fw-bold">AND</span>
       <br> <br>
+      <!-- <p><b>AND</b></p> -->
+      
       <p v-if="showlegalEntityForm">
         <b>{{ companyName }}</b>, a <b>{{ companyType }}</b> company, incorporated under the laws of Nigeria with RC Number <b>{{ regNo }}</b> having its registered address at 
         <b>{{ address }}</b> currently based in <b>{{ regCountry }}</b> (hereinafter referred to as the “Company” which expression shall where the context 
-        so permits include its successors-in-title and assigns) of the first part;
+        so permits include its successors-in-title and assigns) of the second part;
       </p> 
       
       <p v-if="showIndividualForm">
@@ -136,7 +142,7 @@
   import { ref } from "@vue/reactivity"
 
   export default {
-    setup () {
+    setup (props, context) {
       const showlegalEntityForm = ref(true);
       const showIndividualForm = ref(false);
 
@@ -159,6 +165,10 @@
       const preShares = ref();
       const postShares = ref();
 
+      const nextComp = () => {
+        context.emit('next')
+      }
+      
       const firstName = ref("");
       const lastName = ref("");
 
@@ -177,81 +187,8 @@
         postShares,
         firstName,
         lastName,
+        nextComp
       }
     }
   }
 </script>
-
-<style>
-  /* .radios {
-    margin-top: 1rem;
-  }
-
-  .legal-entity {
-    margin-right: 2rem;
-  }
-
-  #exampleRadios1:checked {
-    background-color: black;
-    border-color: white;
-  }
-
-  #exampleRadios2:checked {
-    background-color: black;
-    border-color: white;
-  }
-
-  .form-check-input {
-    cursor: pointer;
-    width: 1em !important;
-    margin-right: 10px;
-  }
-
-  .legal-entity-form {
-    margin-top: 1rem;
-  }
-
-  .individual-form {
-    margin-top: 1rem;
-  }
-
-  .form {
-    margin-top: 1rem;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .form label {
-    margin-bottom: 0.25rem;
-  }
-
-  .form input {
-    width: 16rem;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid rgb(92, 92, 92);
-    font-size: 0.9rem;
-  }
-
-  .form textarea {
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid rgb(92, 92, 92);
-    width: 75%;
-  } */
-
-  /* .agreement-sheet {
-    width: 40%;
-    position: fixed;
-    right: 5px;
-    font-size: 0.9rem;
-  }
-
-  @media (max-width: 992px) {
-    .agreement-sheet {
-      position: relative;
-      width: 100%;
-      margin: 5rem 0;
-    }
-  } */
-</style>

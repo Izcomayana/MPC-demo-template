@@ -47,41 +47,41 @@
 
     <div class="info-forms">
       <div v-if="showSubscriber">
-        <SubscriberForm @subscriber="subscriber" />
+        <SubscriberForm @next="sponsor" />
       </div>
       <div v-if="showSponsor">
-        <SponsorForm />
+        <SponsorForm  @next="targetCompany" />
       </div>
       <div v-if="showTargetCompany">
-        <TLCForm />
+        <TLCForm  @next="subPrice" />
       </div>
       <div v-if="showSubPrice">
-        <SubPriceForm />
+        <SubPriceForm  @next="subTerms" />
       </div>
       <div v-if="showSubTerms">
-        <SubTermsForm />
+        <SubTermsForm  @next="conditions" />
       </div>
       <div v-if="showConditions">
-        <ConditionsForm />
+        <ConditionsForm  @next="reservedMatters" />
       </div>
       <div v-if="showReservedMatters">
-        <ReservedMattersForm />
+        <ReservedMattersForm  @next="shareholders" />
       </div>
       <div v-if="showShareholders">
-        <ShareHoldersForm />
+        <ShareHoldersForm  @next="definitions" />
       </div>
       <div v-if="showDefinitions">
-        <DefinitionsForm />
+        <DefinitionsForm  @next="disclosures" />
       </div>
       <div v-if="showDisclosures">
-        <DisclosedAgreementForm />
+        <DisclosedAgreementForm  @next="disclosures" />
       </div>
     </div>
   </div>
 </template>
 
-<script setup>
-  import { ref } from "@vue/reactivity"
+<script>
+  import { ref } from "vue";
 
   // components
   import SubscriberForm from "./infos/SubscriberForm.vue";
@@ -95,146 +95,191 @@
   import DefinitionsForm from "./infos/DefinitionsForm.vue"
   import DisclosedAgreementForm from "./infos/DisclosedAgreementForm.vue"
 
-  const showSubscriber = ref(true);
-  const showSponsor = ref(false);
-  const showTargetCompany = ref(false);
-  const showSubPrice = ref(false);
-  const showSubTerms = ref(false);
-  const showDefinitions = ref(false);
-  const showReservedMatters = ref(false);
-  const showShareholders = ref(false);
-  const showConditions = ref(false);
-  const showDisclosures = ref(false);
+  export default {
+    components: {
+      SubscriberForm,
+      SponsorForm,
+      TLCForm,
+      SubPriceForm,
+      SubTermsForm,
+      ConditionsForm,
+      ReservedMattersForm,
+      ShareHoldersForm,
+      DefinitionsForm,
+      DisclosedAgreementForm
+    },
+    setup () {
+      const showSubscriber = ref(true);
+      const showSponsor = ref(false);
+      const showTargetCompany = ref(false);
+      const showSubPrice = ref(false);
+      const showSubTerms = ref(false);
+      const showDefinitions = ref(false);
+      const showReservedMatters = ref(false);
+      const showShareholders = ref(false);
+      const showConditions = ref(false);
+      const showDisclosures = ref(false);
 
-  const subscriber = () => {
-    showSubscriber.value = true;
-    showSponsor.value = false;
-    showTargetCompany.value = false;
-    showSubPrice.value = false;
-    showSubTerms.value = false;
-    showDefinitions.value = false;
-    showReservedMatters.value = false;
-    showShareholders.value = false;
-    showConditions.value = false;
-    showDisclosures.value = false;
+
+      const subscriber = () => {
+        showSubscriber.value = true;
+        showSponsor.value = false;
+        showTargetCompany.value = false;
+        showSubPrice.value = false;
+        showSubTerms.value = false;
+        showDefinitions.value = false;
+        showReservedMatters.value = false;
+        showShareholders.value = false;
+        showConditions.value = false;
+        showDisclosures.value = false;
+      }
+
+      const sponsor = () => {
+        showSubscriber.value = false;
+        showSponsor.value = true;
+        showTargetCompany.value = false;
+        showSubPrice.value = false;
+        showSubTerms.value = false;
+        showDefinitions.value = false;
+        showReservedMatters.value = false;
+        showShareholders.value = false;
+        showConditions.value = false;
+        showDisclosures.value = false;
+      }
+
+      const targetCompany = () => {
+        showSubscriber.value = false;
+        showSponsor.value = false;
+        showTargetCompany.value = true;
+        showSubPrice.value = false;
+        showSubTerms.value = false;
+        showDefinitions.value = false;
+        showReservedMatters.value = false;
+        showShareholders.value = false;
+        showConditions.value = false;
+        showDisclosures.value = false;
+      }
+
+      const subPrice = () => {
+        showSubscriber.value = false;
+        showSponsor.value = false;
+        showTargetCompany.value = false;
+        showSubPrice.value = true;
+        showSubTerms.value = false;
+        showDefinitions.value = false;
+        showReservedMatters.value = false;
+        showShareholders.value = false;
+        showConditions.value = false;
+        showDisclosures.value = false;
+      }
+
+      const subTerms = () => {
+        showSubscriber.value = false;
+        showSponsor.value = false;
+        showTargetCompany.value = false;
+        showSubPrice.value = false;
+        showSubTerms.value = true;
+        showDefinitions.value = false;
+        showReservedMatters.value = false;
+        showShareholders.value = false;
+        showConditions.value = false;
+        showDisclosures.value = false;
+      }
+
+      const conditions = () => {
+        showSubscriber.value = false;
+        showSponsor.value = false;
+        showTargetCompany.value = false;
+        showSubPrice.value = false;
+        showSubTerms.value = false;
+        showDefinitions.value = false;
+        showReservedMatters.value = false;
+        showShareholders.value = false;
+        showConditions.value = true;
+        showDisclosures.value = false;
+      }
+      
+      const reservedMatters = () => {
+        showSubscriber.value = false;
+        showSponsor.value = false;
+        showTargetCompany.value = false;
+        showSubPrice.value = false;
+        showSubTerms.value = false;
+        showDefinitions.value = false;
+        showReservedMatters.value = true;
+        showShareholders.value = false;
+        showConditions.value = false;
+        showDisclosures.value = false;
+      }
+
+      const shareholders = () => {
+        showSubscriber.value = false;
+        showSponsor.value = false;
+        showTargetCompany.value = false;
+        showSubPrice.value = false;
+        showSubTerms.value = false;
+        showDefinitions.value = false;
+        showReservedMatters.value = false;
+        showShareholders.value = true;
+        showConditions.value = false;
+        showDisclosures.value = false;
+      }
+
+      const definitions = () => {
+        showSubscriber.value = false;
+        showSponsor.value = false;
+        showTargetCompany.value = false;
+        showSubPrice.value = false;
+        showSubTerms.value = false;
+        showDefinitions.value = true;
+        showReservedMatters.value = false;
+        showShareholders.value = false;
+        showConditions.value = false;
+        showDisclosures.value = false;
+      }
+
+      const disclosures = () => {
+        showSubscriber.value = false;
+        showSponsor.value = false;
+        showTargetCompany.value = false;
+        showSubPrice.value = false;
+        showSubTerms.value = false;
+        showDefinitions.value = false;
+        showReservedMatters.value = false;
+        showShareholders.value = false;
+        showConditions.value = false;
+        showDisclosures.value = true;
+      }
+
+      return {
+        showSubscriber,
+        showSponsor,
+        showTargetCompany,
+        showSubPrice,
+        showSubTerms,
+        showDefinitions,
+        showReservedMatters,
+        showShareholders,
+        showConditions,
+        showDisclosures,
+        subscriber,
+        sponsor,
+        targetCompany,
+        subPrice,
+        subPrice,
+        subTerms,
+        definitions,
+        reservedMatters,
+        shareholders,
+        conditions,
+        disclosures,
+      }
+    }
   }
 
-  const sponsor = () => {
-    showSubscriber.value = false;
-    showSponsor.value = true;
-    showTargetCompany.value = false;
-    showSubPrice.value = false;
-    showSubTerms.value = false;
-    showDefinitions.value = false;
-    showReservedMatters.value = false;
-    showShareholders.value = false;
-    showConditions.value = false;
-    showDisclosures.value = false;
-  }
 
-  const targetCompany = () => {
-    showSubscriber.value = false;
-    showSponsor.value = false;
-    showTargetCompany.value = true;
-    showSubPrice.value = false;
-    showSubTerms.value = false;
-    showDefinitions.value = false;
-    showReservedMatters.value = false;
-    showShareholders.value = false;
-    showConditions.value = false;
-    showDisclosures.value = false;
-  }
-
-  const subPrice = () => {
-    showSubscriber.value = false;
-    showSponsor.value = false;
-    showTargetCompany.value = false;
-    showSubPrice.value = true;
-    showSubTerms.value = false;
-    showDefinitions.value = false;
-    showReservedMatters.value = false;
-    showShareholders.value = false;
-    showConditions.value = false;
-    showDisclosures.value = false;
-  }
-
-  const subTerms = () => {
-    showSubscriber.value = false;
-    showSponsor.value = false;
-    showTargetCompany.value = false;
-    showSubPrice.value = false;
-    showSubTerms.value = true;
-    showDefinitions.value = false;
-    showReservedMatters.value = false;
-    showShareholders.value = false;
-    showConditions.value = false;
-    showDisclosures.value = false;
-  }
-
-  const definitions = () => {
-    showSubscriber.value = false;
-    showSponsor.value = false;
-    showTargetCompany.value = false;
-    showSubPrice.value = false;
-    showSubTerms.value = false;
-    showDefinitions.value = true;
-    showReservedMatters.value = false;
-    showShareholders.value = false;
-    showConditions.value = false;
-    showDisclosures.value = false;
-  }
-
-  const reservedMatters = () => {
-    showSubscriber.value = false;
-    showSponsor.value = false;
-    showTargetCompany.value = false;
-    showSubPrice.value = false;
-    showSubTerms.value = false;
-    showDefinitions.value = false;
-    showReservedMatters.value = true;
-    showShareholders.value = false;
-    showConditions.value = false;
-    showDisclosures.value = false;
-  }
-
-  const shareholders = () => {
-    showSubscriber.value = false;
-    showSponsor.value = false;
-    showTargetCompany.value = false;
-    showSubPrice.value = false;
-    showSubTerms.value = false;
-    showDefinitions.value = false;
-    showReservedMatters.value = false;
-    showShareholders.value = true;
-    showConditions.value = false;
-    showDisclosures.value = false;
-  }
-
-  const conditions = () => {
-    showSubscriber.value = false;
-    showSponsor.value = false;
-    showTargetCompany.value = false;
-    showSubPrice.value = false;
-    showSubTerms.value = false;
-    showDefinitions.value = false;
-    showReservedMatters.value = false;
-    showShareholders.value = false;
-    showConditions.value = true;
-    showDisclosures.value = false;
-  }
-
-  const disclosures = () => {
-    showSubscriber.value = false;
-    showSponsor.value = false;
-    showTargetCompany.value = false;
-    showSubPrice.value = false;
-    showSubTerms.value = false;
-    showDefinitions.value = false;
-    showReservedMatters.value = false;
-    showShareholders.value = false;
-    showConditions.value = false;
-    showDisclosures.value = true;
-  }
+  
+  
 </script>
 
 <style>

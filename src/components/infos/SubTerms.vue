@@ -76,7 +76,7 @@
         </div>
         <div class="form">
           <label>Insert Subscription Price*</label>
-          <input type="number" placeholder="Ex: 500" required>
+          <input type="number" placeholder="Ex: 500" v-model="subPrice" required>
         </div>
         <br>
         <label>Will the transaction include an anti-dilution clause?</label>
@@ -106,7 +106,7 @@
           </div>
         </div> 
 
-        <button>Next</button>
+        <button class="next-btn" :disabled="!subPrice" @click="nextComp">Next</button>
       </form>
     </div>
 
@@ -118,8 +118,8 @@
       <span class="fs-6 fw-bold">BY AND AMONG</span>
       <br> <br>
       <p>
-        <b>{{ companyName }}</b>, a <b>{{ entityType }}</b>, incorporated under the laws of <b>{{ regCountry }}</b> with RC Number <b>{{ regNo }}</b> having its registered address at 
-        <b>{{ regAddress}}</b> (hereinafter referred to as the “Company” which expression shall where the context so permits include its successors-in-title and assigns) 
+        <b></b>, a <b></b>, incorporated under the laws of <b></b> with RC Number <b></b> having its registered address at 
+        <b></b> (hereinafter referred to as the “Company” which expression shall where the context so permits include its successors-in-title and assigns) 
         of the first part;
       </p>
       <br> <br> <br>
@@ -132,31 +132,34 @@
   import { ref } from "vue"
 
   export default {
-    setup () {
+    setup (props, context) {
       const selected = ref();
-        // const ariaDescribedby = ref("A")
 
-        const showDirectorNo = ref(false)
+      const showDirectorNo = ref(false)
 
-        const directorYes = () => {
-          showDirectorNo.value = true
-        }
+      const directorYes = () => {
+        showDirectorNo.value = true
+      }
 
-        const directorNo = () => {
-          showDirectorNo.value = false
-        }
+      const directorNo = () => {
+        showDirectorNo.value = false
+      }
 
-        const showDirectorLimit = ref(false)
+      const showDirectorLimit = ref(false)
 
-        const directorLimitYes = () => {
-          showDirectorLimit.value = true
-        }
+      const directorLimitYes = () => {
+        showDirectorLimit.value = true
+      }
 
-        const directorLimitNo = () => {
-          showDirectorLimit.value = false
-        }
+      const directorLimitNo = () => {
+        showDirectorLimit.value = false
+      }
 
-        // const entitledDirNo = ref()
+      const subPrice = ref("");
+
+      const nextComp = () => {
+        context.emit('next')
+      }
 
       return {
         selected,
@@ -165,66 +168,12 @@
         directorNo,
         showDirectorLimit,
         directorLimitYes,
-        directorLimitNo
+        directorLimitNo,
+        subPrice,
+        nextComp
       }
     }
   }
 
   
 </script>
-
-<style>
-  /* .radios {
-    margin-top: 0;
-  }
-
-  .legal-entity {
-    margin-right: 2rem;
-  }
-
-  .legal-entity-form {
-    margin-top: 1rem;
-  }
-
-  .entity-type {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .entity-type label {
-    margin-bottom: 0.25rem;
-  }
-
-  .entity-type select {
-    width: 16rem;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid rgb(92, 92, 92);
-    font-size: 0.9rem;
-  }
-
-  .form {
-    margin-top: 1rem;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .form label {
-    margin-bottom: 0.25rem;
-  }
-
-  .form input {
-    width: 16rem;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid rgb(92, 92, 92);
-    font-size: 0.9rem;
-  }
-
-  .form textarea {
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid rgb(92, 92, 92);
-    width: 75%;
-  } */
-</style>
