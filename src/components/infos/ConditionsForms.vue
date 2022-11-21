@@ -1,6 +1,7 @@
 <template>
   <div class="stage">
-    <div class="w-100 border mt-4 p-2 pt-3 rounded">
+    <div class="w-100">
+      <div class="border mt-4 p-2 pt-3 rounded">
       <h3>Completion Conditions</h3>    
       <form @submit.prevent="" class="legal-entity-form">
         <div class="form">
@@ -14,21 +15,24 @@
               placeholder="Ex: File all annual returns with the CAC">
             </textarea>
           </form>
-          <button class="next-btn" type="submit" @click="addCondition">Insert Condition <i class="bi bi-forward"></i></button>
+          <button class="next-btn insert" type="submit" @click="addCondition">Insert Condition <i class="bi bi-forward"></i></button>
         </div>
-        
-        <button class="next-btn" :disabled="!additionalCondition" @click="nextComp">Next</button>
       </form>
     </div>
 
+    <div class="btns d-flex justify-content-between">
+      <button class="next-btn previous" @click="previousComp">Back</button>
+      <button class="next-btn forward" @click="nextComp">Next</button>
+    </div>
+  </div>
+
     <div class="agreement-sheet">
       <span class="fs-6 fw-bold">
-        2. COMPLETION CONDITIONS
+        6. COMPLETION CONDITIONS
       </span>
       <br> <br>
       <p>
-        2.1 The provision of Completion conditional clauses 
-        are on the following having occurred on or before 5.00pm (GMT) on the Long Stop Date:
+        Following the Completion Date, but no later than the Longstop Date, the Company & the Sponsors shall procure the following:
       </p>
 
       <div class="card">
@@ -42,12 +46,6 @@
               data-bs-target="#exampleModal"
               @click="editCondition(condition)">
             </i>
-
-            <!-- <div v-if="condition === conditionToEdit" class="modal fade" id="exampleModal" >
-              <input type="text" v-model="condition.condition" >
-              <button @click="saveCondition(condition.id)">Save</button>
-              <button @click="cancleEditMode">Cancle</button>
-            </div> -->
             <div>
               <div class="modal fade" id="exampleModal"  aria-labelledby="exampleModalLabel" aria-hidden="true" v-if="condition == conditionToEdit">
                 <div class="modal-dialog">
@@ -91,23 +89,18 @@
             condition: additionalCondition.value
           });
         }
+        additionalCondition.value = ""
       }
 
       const nextComp = () => {
-        context.emit('next')
+        context.emit('next');
+      }
+
+      const previousComp = () => {
+        context.emit('previous');
       }
       
-      const conditions = ref([
-        {
-          condition: "execution of the Transaction Documents "
-        },
-        {
-          condition: "waivers duly executed by the existing shareholders of the Company waiving any and all pre-emptive rights or right of first offer or refusal in respect of the Subscription Shares under the CAMA or otherwise"
-        },
-        {
-          condition: "no event having a Material Adverse Effect has occurred",
-        }
-      ]);
+      const conditions = ref([]);
 
       const deleteCondition = (index) => {
         conditions.value.splice(index, 1);
@@ -131,6 +124,7 @@
         additionalCondition,
         addCondition,
         nextComp,
+        previousComp,
         conditions,
         deleteCondition,
         conditionToEdit,
@@ -142,7 +136,25 @@
   }
 </script>
 
-<style>
+<style scoped>
+  .insert:hover {
+    background-color: #033772;
+  }
+
+  .previous {
+    width: 49.7%;
+    background-color: #e0e1e2;
+    color: black;
+  }
+
+  .previous:hover {
+    background-color: #cacbcd;
+  }
+
+  .forward {
+    width: 49.7%;
+  }
+
   .agreement-sheet {
     position: absolute;
   }

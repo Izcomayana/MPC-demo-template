@@ -1,21 +1,27 @@
 <template>
   <div class="stage">
-    <div class="w-100 border mt-4 p-2 pt-3 rounded">
-      <h3>Definitions</h3>    
-      <form @submit.prevent="" class="legal-entity-form">
-        <div class="form">
-          <label>Defined Term*</label>
-          <input v-model="term" type="text" placeholder="Ex: Oluwapelumi Sotoyinbo" required>
-        </div>
-        <div class="form">
-          <label>Meaning*</label>
-          <textarea v-model="meaning" cols="10" rows="5" required></textarea>
-        </div>
-        <button class="next-btn" type="submit" @click="addDefinition">Insert Condition <i class="bi bi-forward"></i></button>
-      </form>
-        <button :disabled="!term || !meaning" class="next-btn" @click="nextComp">Next</button>
+    <div class="w-100">
+      <div class="border mt-4 p-2 pt-3 rounded">
+        <h3>Definitions</h3>    
+        <form @submit.prevent="" class="legal-entity-form">
+          <div class="form">
+            <label>Defined Term*</label>
+            <input v-model="term" type="text" placeholder="Ex: Oluwapelumi Sotoyinbo" required>
+          </div>
+          <div class="form">
+            <label>Meaning*</label>
+            <textarea v-model="meaning" cols="10" rows="5" required></textarea>
+          </div>
+          <button class="next-btn" type="submit" @click="addDefinition">Insert Condition <i class="bi bi-forward"></i></button>
+        </form>
+      </div>
+
+      <div class="btns d-flex justify-content-between">
+        <button class="next-btn previous" @click="previousComp">Back</button>
+        <button class="next-btn forward" @click="nextComp">Next</button>
+      </div>
     </div>
-  
+    
     <div class="agreement-sheet">
       <span class="fs-6 fw-bold">
         1 DEFINITIONS AND INTERPRETATION
@@ -60,6 +66,10 @@
         context.emit('next')
       }
 
+      const previousComp = () => {
+        context.emit('previous');
+      }
+
       const definitions = ref([
         { term: "", meaning: "" }
       ]);
@@ -88,6 +98,7 @@
         term,
         meaning,
         nextComp,
+        previousComp,
         definitions,
         showTable,
         addDefinition,

@@ -1,34 +1,55 @@
 <template>
   <div class="stage">
-    <div class="w-100 border mt-4 p-2 pt-3 rounded">
-      <h3>Reserved Matters</h3>    
-      <form @submit.prevent="" class="legal-entity-form">
-        <div class="form">
-          <label>Insert new Reserved Matter*</label>
-          <textarea v-model="newReservedMatter" cols="10" rows="5" required></textarea>
-        </div>
-        <div class="form">
-          <label>Insert new Information Right*</label>
-          <textarea v-model="newInfo" cols="10" rows="5" required></textarea>
-        </div>
+    <div class="w-100">
+      <div class="border mt-4 p-2 pt-3 rounded">
+        <h3>Reserved Matters</h3>    
+        <form @submit.prevent="" class="legal-entity-form">
+          <div class="form">
+            <label>Insert new Reserved Matter*</label>
+            <textarea v-model="newReservedMatter" cols="10" rows="5" required></textarea>
+          </div>
+          <div class="form">
+            <label>Insert new Information Right*</label>
+            <textarea v-model="newInfo" cols="10" rows="5" required></textarea>
+          </div>
+          <button class="next-btn insert" type="submit" @click="addMatters">Insert Condition <i class="bi bi-forward"></i></button>
+        </form>
+      </div>
 
-        <button class="next-btn" :disabled="!newReservedMatter || !newInfo" @click="nextComp">Next</button>
-      </form>
+      <div class="btns d-flex justify-content-between">
+        <button class="next-btn previous" @click="previousComp">Back</button>
+        <button class="next-btn forward" @click="nextComp">Next</button>
+      </div>
     </div>
 
     <div class="agreement-sheet">
       <span class="fs-6 fw-bold">
-        THIS SHAREHOLDERS' AGREEMENT is made this ____ day of __________ 20____
+        THIS SHARE SHAREHOLDERS' AGREEMENT is made this ____ day of __________ 20____
       </span>
       <br> <br>
-      <span class="fs-6 fw-bold">BY AND AMONG</span>
-      <br> <br>
+      <!-- new Reserved Matter* -->
       <p>
-        <b></b>, a <b></b>, incorporated under the laws of <b></b> with RC Number <b></b> having its registered address at 
-        <b></b> (hereinafter referred to as the “Company” which expression shall where the context so permits include its successors-in-title and assigns) 
-        of the first part;
+        The Company and the Sponsors shall ensure that the consent of the Subscriber 
+        shall be first had and obtained in relation to the following matters, 
+        provided that such consent shall not be unreasonably withheld, 
+        delayed or conditioned (the “Reserved Matters”):
       </p>
-      <br> <br> <br>
+      <div v-for="(matter, index) in matters" :key="index">
+        <p>
+          {{ index + 11.1 }} {{ matter.newReservedMatter }} 
+          <i class="bi bi-trash icon"  @click="deleteDefinition(index)"></i>
+        </p>
+      </div>
+      <!-- new Information Right* -->
+      <p>
+        The Subscriber shall be entitled to receive the following information and/or documents from the Company:
+      </p>
+      <div v-for="(matter, index) in matters" :key="index">
+        <p>
+          {{ index + 11.1 }} {{ matter.newInfo }} 
+          <!-- <i class="bi bi-trash icon"  @click="deleteDefinition(index)"></i> -->
+        </p>
+      </div>
     </div>
   </div>
 </template>
@@ -44,12 +65,65 @@
     const nextComp = () => {
       context.emit('next')
     }
+
+    const previousComp = () => {
+      context.emit('previous');
+    }
   
+    const matters = ref([
+      { term: "", meaning: "" }
+    ]);
+
+    const showTable = ref(true);
+
+    matters.value.shift()
+    const addMatters = () => {
+      if (newInfo.value !== "" & newReservedMatter.value !== "") {
+        showTable.value = true
+        matters.value.push({
+          newInfo: newInfo.value,
+          newReservedMatter: newReservedMatter.value,
+        });
+
+        newInfo.value = ""
+        newReservedMatter.value = ""
+      }
+    }
+
+    const deleteDefinition = (index) => {
+      matters.value.splice(index, 1);
+    }
+
       return {
         newReservedMatter,
         newInfo,
-        nextComp
+        nextComp,
+        previousComp,
+        matters,
+        showTable,
+        addMatters,
+        deleteDefinition
       }
     }
   }
 </script>
+
+<style>
+  .insert:hover {
+    background-color: #033772;
+  }
+  
+  .previous {
+    width: 49.7%;
+    background-color: #e0e1e2;
+    color: black;
+  }
+
+  .previous:hover {
+    background-color: #cacbcd;
+  }
+
+  .forward {
+    width: 49.7%;
+  }
+</style>

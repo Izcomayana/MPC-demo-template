@@ -13,7 +13,6 @@
           </select>
         </div>
 
-        <!-- <div class="entity-type form" v-if="showExchangeRate"> -->
         <div class="entity-type form" v-if="selected !== 'NGN'">
           <label for="Entity Type">What is the agreed exchange rate?*</label>
           <select name="Entity Type">
@@ -52,16 +51,10 @@
 
     <div class="agreement-sheet">
       <span class="fs-6 fw-bold">
-        THIS SHAREHOLDERS' AGREEMENT is made this ____ day of __________ 20____
+        THIS SHARE SHAREHOLDERS' AGREEMENT is made this ____ day of __________ 20____
       </span>
       <br> <br>
-      <span class="fs-6 fw-bold">BY AND AMONG</span>
-      <br> <br>
-      <p>
-        <b></b>, a <b></b>, incorporated under the laws of <b></b> with RC Number <b></b> having its registered address at 
-        <b></b> (hereinafter referred to as the “Company” which expression shall where the context so permits include its successors-in-title and assigns) 
-        of the first part;
-      </p>
+      <p>“Subscription Price” means currency subscription price</p>
       <br> <br> <br>
     </div>
   </div>

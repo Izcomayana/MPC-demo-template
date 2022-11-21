@@ -1,6 +1,7 @@
 <template>
   <div class="stage">
     <div class="w-100 border mt-4 p-3 pt-3 rounded">
+      <!-- <InputField v-model="entityName" label="Lorem" /> -->
       <h3>Details of the subscriber</h3>
       <br>
       <div class="d-flex radios">
@@ -126,7 +127,7 @@
 
     <div class="agreement-sheet">
       <span class="fs-6 fw-bold">
-        THIS SHAREHOLDERS' AGREEMENT is made this ____ day of __________ 20____
+        THIS SHARE SHAREHOLDERS' AGREEMENT is made this ____ day of __________ 20____
       </span>
       <br> <br>
       <span class="fs-6 fw-bold">BY AND AMONG</span>
@@ -140,17 +141,6 @@
         <b>{{ firstName }}</b> <b>{{ lastName }}</b> of <b>{{ regAddress }}</b> (hereinafter referred to as "" which expression shall where the context so admits, 
         include successors-in-title and assigns) of the second part;
       </p>
-      
-      <span class="fs-6 fw-bold">AND</span>
-      <br> <br>
-      
-      <span class="sponsor">
-        <p>
-          <b>{{ companyName }}</b>, a <b>{{ companyType }}</b> company, incorporated under the laws of Nigeria with RC Number <b>{{ regNo }}</b> having its registered address at 
-          <b>{{ address }}</b> currently based in <b>{{ regCountry }}</b> (hereinafter referred to as the “Company” which expression shall where the context 
-          so permits include its successors-in-title and assigns) of the second part;
-        </p> 
-      </span>
       <br> <br> <br>
     </div>
   </div>
@@ -158,9 +148,15 @@
 
 <script >
   import { ref } from "@vue/reactivity";
+  
+  import InputField from "../inputs/InputField.vue";
 
   export default {
+    components: {
+      InputField
+    },
     setup (props, context) {
+      const label = ref("idan")
       const showlegalEntityForm = ref(true);
       const showIndividualForm = ref(false);
 
@@ -192,6 +188,7 @@
 
 
       return {
+        label,
         nextComp,
         showlegalEntityForm,
         showIndividualForm,
@@ -363,6 +360,11 @@
     color: white;
     font-weight: 600;
     margin-bottom: 1rem;
+    border: 0;
+  }
+
+  .next-btn:hover {
+    background-color: #7E7774;
   }
 
   .next-btn:disabled,
@@ -372,7 +374,6 @@
   }
 
   .agreement-sheet {
-    /* border: 2px solid red; */
     width: 40%;
     position: fixed;
     right: 5px;

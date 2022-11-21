@@ -112,15 +112,22 @@
 
     <div class="agreement-sheet">
       <span class="fs-6 fw-bold">
-        THIS SHAREHOLDERS' AGREEMENT is made this ____ day of __________ 20____
+        THIS  SHARE SHAREHOLDERS' AGREEMENT is made this ____ day of __________ 20____
       </span>
       <br> <br>
-      <span class="fs-6 fw-bold">BY AND AMONG</span>
+      <span class="fs-6 fw-bold">Anti-Dilution</span>
       <br> <br>
       <p>
-        <b></b>, a <b></b>, incorporated under the laws of <b></b> with RC Number <b></b> having its registered address at 
-        <b></b> (hereinafter referred to as the “Company” which expression shall where the context so permits include its successors-in-title and assigns) 
-        of the first part;
+        It is hereby agreed that the Subscriber shall at all times be protected against dilution of its shareholding in the Company
+      </p>
+      <p>
+        If the Company issues any new shares after the Completion Date, 
+        which are priced on the basis of a pre-money valuation of the Company that is lower 
+        than the post-money valuation relating the investment made by the Subscriber, the Company shall, 
+        unless and to the extent that the Subscriber shall have specifically waived its rights under this paragraph in writing, 
+        issue to the Subscriber, at no extra cost to the Subscriber, 
+        such number of shares to the extent that the Subscriber shall after such allotment hold not less than 
+        13% (thirteen percent) of the Company’s share capital
       </p>
       <br> <br> <br>
     </div>

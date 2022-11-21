@@ -62,19 +62,19 @@
         <SubTermsForm  @next="conditions" />
       </div>
       <div v-if="showConditions">
-        <ConditionsForm  @next="reservedMatters" />
+        <ConditionsForm  @next="reservedMatters" @previous="subTerms" />
       </div>
       <div v-if="showReservedMatters">
-        <ReservedMattersForm  @next="shareholders" />
+        <ReservedMattersForm  @next="shareholders" @previous="conditions" />
       </div>
       <div v-if="showShareholders">
-        <ShareHoldersForm  @next="definitions" />
+        <ShareHoldersForm  @next="definitions" @previous="reservedMatters" />
       </div>
       <div v-if="showDefinitions">
-        <DefinitionsForm  @next="disclosures" />
+        <DefinitionsForm  @next="disclosures" @previous="shareholders" />
       </div>
       <div v-if="showDisclosures">
-        <DisclosedAgreementForm  @next="disclosures" />
+        <DisclosedAgreementForm  @next="disclosures" @previous="definitions" />
       </div>
     </div>
   </div>

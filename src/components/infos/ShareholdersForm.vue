@@ -1,27 +1,30 @@
 <template>
   <div class="stage">
-    <div class="w-100 border mt-4 p-2 pt-3 rounded">
-      <h3>Shareholders</h3>    
-      <form @submit.prevent="" class="legal-entity-form">
-        <div class="form">
-          <label>Name*</label>
-          <input v-model="name" type="text" placeholder="Ex: Oluwapelumi Sotoyinbo" >
-        </div>
-        <div class="form">
-          <label>Address</label>
-          <textarea v-model="address" cols="10" rows="5" placeholder="Ex: 123 West End Lane Ikota" ></textarea>
-        </div>
-        <div class="form">
-          <label>Shareholding%*</label>
-          <input v-model="shareholding" type="number" >
-        </div>
+    <div class="w-100">
+      <div class="border mt-4 p-2 pt-3 rounded">
+        <h3>Shareholders</h3>    
+        <form @submit.prevent="" class="legal-entity-form">
+          <div class="form">
+            <label>Name*</label>
+            <input v-model="name" type="text" placeholder="Ex: Oluwapelumi Sotoyinbo" >
+          </div>
+          <div class="form">
+            <label>Address</label>
+            <textarea v-model="address" cols="10" rows="5" placeholder="Ex: 123 West End Lane Ikota" ></textarea>
+          </div>
+          <div class="form">
+            <label>Shareholding%*</label>
+            <input v-model="shareholding" type="number" >
+          </div>
 
-        <button class="next-btn" type="submit" @click="addShareholder">Insert Condition <i class="bi bi-forward"></i></button>
-      </form>
-        <button 
-        class="next-btn"
-        :disabled="!name || !address || !shareholding" 
-        @click="nextComp">Next</button>
+          <button class="next-btn" type="submit" @click="addShareholder">Insert Condition <i class="bi bi-forward"></i></button>
+        </form>
+      </div>
+
+      <div class="btns d-flex justify-content-between">
+        <button class="next-btn previous" @click="previousComp">Back</button>
+        <button class="next-btn forward" @click="nextComp">Next</button>
+      </div>
     </div>
 
     <div class="agreement-sheet">
@@ -71,6 +74,10 @@
         context.emit('next')
       }
 
+      const previousComp = () => {
+        context.emit('previous');
+      }
+
       const showTable = ref(false);
 
       shareholders.value.shift()
@@ -102,6 +109,7 @@
         showTable,
         addShareholder,
         nextComp,
+        previousComp,
         deleteShareholder
       }
     }
