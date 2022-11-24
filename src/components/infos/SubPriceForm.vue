@@ -1,89 +1,102 @@
 <template>
   <div class="stage">
     <div class="w-100 border mt-4 p-2 pt-3 rounded">
-      <h3>Subscription Price</h3>    
+      <h3>Subscription Price</h3>
       <form @submit.prevent="" class="legal-entity-form">
+        <BaseSelect
+          :options="currencies"
+          v-model="form.currency"
+          label="What is the subscription currency"
+        />
+
         <div class="entity-type form">
-          <label for="Entity Type">What is the subscription currency?*</label>
-          <select name="Entity Type" v-model="selected" required>
-            <option value="" disabled selected>Select an option</option>
-            <option value="NGN">NGN - Naira</option>
-            <option value="USA">$ - United Stated dollars</option>
-            <option value="GBP">GBP - Great British Pounds</option>
-          </select>
+          <BaseSelect
+            :options="exchangeRates"
+            v-model="form.exchangeRate"
+            label="What is the subscription currency"
+            v-if="
+              form.currency === '$ - United Stated dollars' ||
+              form.currency === 'GBP - Great British Pounds'
+            "
+          />
         </div>
 
-        <div class="entity-type form" v-if="selected !== 'NGN'">
-          <label for="Entity Type">What is the agreed exchange rate?*</label>
-          <select name="Entity Type">
-            <option value="CBN rate published at closing of the Business Day">
-              Official Rate of the Central Bank of Nigeria published by the
-              Central Bank of Nigeria at closing of the Business Day 
-              immediately preceding the relevant date
-            </option>
-            <option value="CBN rate published at 5pm">
-              Official Rate of the Central Bank of Nigeria published by the 
-              Central Bank of Nigeria at 5:00 p.m. of the relevant date
-            </option>
-            <option value="NAFEX published by CBN at closing of the Business Day">
-              The Nigerian Autonomous Foreign Exchange Rate Fixing (NAFEX) 
-              published by the Central Bank of Nigeria at closing of the 
-              Business Day immediately preceding the relevant date
-            </option>
-            <option value="NAFEX rate published at 5pm">
-              The Nigerian Autonomous Foreign Exchange Rate Fixing (NAFEX) 
-              published by the Central Bank of Nigeria at 5:00 p.m. of the relevant date
-            </option>
-            <option value="others">
-              Other - applicable rates agreed between the Parties
-            </option>
-          </select>
-        </div>
+        <BaseInput
+          v-model="form.subPrice"
+          label="What is the Subscription Price?"
+          type="number"
+          placeholder="Ex: 700"
+        />
 
-        <div class="form">
-          <label>What is the Subscription Price?*</label>
-          <input v-model="subPrice" type="text" placeholder="Ex: $700" required>
-        </div>
-
-        <button class="next-btn" :disabled="!subPrice" @click="nextComp">Next</button>
+        <button class="next-btn" :disabled="!form.subPrice" @click="nextComp">
+          Next
+        </button>
       </form>
     </div>
 
     <div class="agreement-sheet">
       <span class="fs-6 fw-bold">
-        THIS SHARE SHAREHOLDERS' AGREEMENT is made this ____ day of __________ 20____
+        THIS SHARE SHAREHOLDERS' AGREEMENT is made this ____ day of __________
+        20____
       </span>
-      <br> <br>
-      <p>“Subscription Price” means currency subscription price</p>
-      <br> <br> <br>
+      <br />
+      <br />
+      <p>“Subscription Price” means <b>{{ form.subPrice }}</b></p>
+      <br />
+      <br />
+      <br />
     </div>
   </div>
 </template>
 
 <script>
-  import { ref } from "vue"
+import { ref } from "vue";
 
-  export default {
-    setup (props, context) {
-      const selected = ref(null);
+import BaseInput from "../inputs/BaseInput.vue";
+import BaseSelect from "../inputs/BaseSelect.vue";
 
-      const subPrice = ref("");
+export default {
+  components: {
+    BaseInput,
+    BaseSelect,
+  },
+  setup(props, context) {
+    const currencies = ref([
+      "NGN - Naira",
+      "$ - United Stated dollars",
+      "GBP - Great British Pounds",
+    ]);
 
-      const nextComp = () => {
-        context.emit('next')
-      }
+    const exchangeRates = ref([
+      "Official Rate of the Central Bank of Nigeria published by the Central Bank of Nigeria at closing of the Business Day immediately preceding the relevant date",
+      "Official Rate of the Central Bank of Nigeria published by the Central Bank of Nigeria at 5:00 p.m. of the relevant date",
+      "The Nigerian Autonomous Foreign Exchange Rate Fixing (NAFEX) published by the Central Bank of Nigeria at closing of the Business Day immediately preceding the relevant date",
+      "The Nigerian Autonomous Foreign Exchange Rate Fixing (NAFEX) published by the Central Bank of Nigeria at 5:00 p.m. of the relevant date",
+      "Other - applicable rates agreed between the Parties",
+    ]);
 
-      return {
-        selected,
-        subPrice,
-        nextComp
-      }
-    }
-  }
+    const form = ref({
+      currency: "",
+      exchangeRate: "",
+      subPrice: "",
+    });
+
+    const nextComp = () => {
+      context.emit("next");
+    };
+
+    return {
+      currencies,
+      exchangeRates,
+      form,
+      nextComp,
+    };
+  },
+};
 </script>
 
 <style>
-  .entity-type select option {
-    width: 5rem;
-  }
+.entity-type select option {
+  width: 5rem;
+}
 </style>

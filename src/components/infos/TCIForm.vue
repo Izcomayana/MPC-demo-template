@@ -1,103 +1,142 @@
 <template>
   <div class="stage">
     <div class="w-100 border mt-4 p-2 pt-3 rounded">
-      <h3>Target Company Information</h3>    
+      <h3>Target Company Information</h3>
       <form @submit.prevent="" class="legal-entity-form">
-        <div class="form">
-          <label>Company Name*</label>
-          <input v-model="companyName" type="text" placeholder="Ex: MPC" required>
-        </div>
-        <div class="form">
-          <label>Registration Address</label>
-          <input v-model="regAddress" type="text" placeholder="Ex: 123 West End Lane Ikota" required>
-        </div>
-        <div class="form">
-          <label>Registered Number*</label>
-          <input v-model="regNo" type="number" placeholder="Ex: 1234" required>
-        </div>
-        <div class="form">
-          <label>Registration Country*</label>
-          <input v-model="regCountry" type="text" placeholder="Ex: Nigeria" required>
-        </div>
-        <div class="form">
-          <label>Defined as*</label>
-          <input v-model="definedAs" type="text" placeholder="Ex: Main" required>
-        </div>
-        <div class="entity-type form">
-          <label for="Entity Type">Industry Of The Company*</label>
-          <select name="Entity Type" v-model="entityType" required>
-            <option value="Private limited liability company">Private limited liability company</option>
-            <option value="Public limited liability company">Public limited liability company</option>
-          </select>
-        </div>
-        <div class="form">
-          <label>Business Of The Company*</label>
-          <textarea v-model="companyBusiness" cols="10" rows="5" placeholder="Ex: 123 West End Lane Ikota" required></textarea>
-        </div>
-        <div class="form">
-          <label>Authorized Share capital of the Company*</label>
-          <input v-model="authShares" type="text" placeholder="Ex: 60" required>
-        </div>
-        <div class="form">
-          <label>Price per Share*</label>
-          <input v-model="sharePrice" type="number" placeholder="Ex: 70">
-        </div>
+        <BaseInput
+          v-model="form.companyName"
+          label="Company Name"
+          type="text"
+          placeholder="Ex: MPC"
+        />
+        <BaseTextarea
+          v-model="form.regAddress"
+          label="Registration Address"
+          placeholder="Ex: 123 West End Lane Ikota"
+        />
+        <BaseInput
+          v-model="form.regNo"
+          label="Registration Number"
+          type="number"
+          placeholder="Ex: 1234"
+        />
+        <BaseInput
+          v-model="form.regCountry"
+          label="Registration Country"
+          type="text"
+          placeholder="Ex: Nigeria"
+        />
+        <BaseInput
+          v-model="form.definedAs"
+          label="Defined as"
+          type="text"
+          placeholder="Ex: Main"
+        />
+        <BaseSelect
+          :options="entityTypes"
+          v-model="form.entityType"
+          label="Entity Type"
+        />
+        <BaseTextarea
+          v-model="form.companyBusiness"
+          label="Business Of The Company"
+          placeholder="Ex: 123 West End Lane Ikota"
+        />
+        <BaseInput
+          v-model="form.authShares"
+          label="Authorized Share capital of the Company"
+          type="number"
+          placeholder="Ex: 60"
+        />
+        <BaseInput
+          v-model="form.sharePrice"
+          label="Price per Share"
+          type="number"
+          placeholder="Ex: 70"
+        />
 
-        <button 
+        <button
           class="next-btn"
-          :disabled="!companyName || !regAddress || !regNo || !regCountry 
-          || !definedAs || !companyBusiness || !authShares || !sharePrice"
+          :disabled="
+            !form.companyName ||
+            !form.regAddress ||
+            !form.regNo ||
+            !form.regCountry ||
+            !form.definedAs ||
+            !form.companyBusiness ||
+            !form.authShares ||
+            !form.sharePrice
+          "
           @click="nextComp"
-        >Next</button>
+        >
+          Next
+        </button>
       </form>
     </div>
 
     <div class="agreement-sheet">
       <span class="fs-6 fw-bold">
-        THIS SHARE SHAREHOLDERS' AGREEMENT is made this ____ day of __________ 20____
+        THIS SHARE SHAREHOLDERS' AGREEMENT is made this ____ day of __________
+        20____
       </span>
-      <br> <br>
+      <br />
+      <br />
       <p>
-        <b>{{ companyName }}</b>, a <b>{{ entityType }}</b>, incorporated under the laws of <b>{{ regCountry }}</b> with RC Number <b>{{ regNo }}</b> having its registered address at 
-        <b>{{ regAddress}}</b> (hereinafter referred to as the “Company” which expression shall where the context so permits include its successors-in-title and assigns) 
-        of the first part;
+        <b>{{ form.companyName }}</b
+        >, a <b>{{ form.entityType }}</b
+        >, incorporated under the laws of <b>{{ form.regCountry }}</b> with RC Number
+        <b>{{ form.regNo }}</b> having its registered address at
+        <b>{{ form.regAddress }}</b> (hereinafter referred to as the “Company” which
+        expression shall where the context so permits include its
+        successors-in-title and assigns) of the first part;
       </p>
-      <br> <br> <br>
+      <br />
+      <br />
+      <br />
     </div>
   </div>
 </template>
 
 <script>
-  import { ref } from "vue";
+import { ref } from "vue";
 
-  export default {
-    setup (props, context) {
-      const companyName = ref("");
-      const regAddress = ref("");
-      const regNo = ref();
-      const regCountry = ref("");
-      const definedAs = ref("");
-      const entityType = ref();
-      const companyBusiness = ref("");
-      const authShares = ref("");
-      const sharePrice = ref();
+import BaseInput from "../inputs/BaseInput.vue";
+import BaseSelect from "../inputs/BaseSelect.vue";
+import BaseTextarea from "../inputs/BaseTextarea.vue";
 
-      const nextComp = () => {
-        context.emit('next')
-      }
+export default {
+  components: {
+    BaseInput,
+    BaseSelect,
+    BaseTextarea,
+  },
+  setup(props, context) {
+    const entityTypes = ref([
+      "Private limited liability company",
+      "Public limited liability company",
+    ]);
 
-      return {
-        companyName,
-        regAddress,
-        regNo,
-        regCountry,
-        definedAs,
-        entityType,
-        companyBusiness,
-        authShares,
-        sharePrice,
-        nextComp
-      }
-    }
-  }
+    const form = ref({
+      entityType: null,
+      companyName: "",
+      regNo: "",
+      regAddress: "",
+      regCountry: "",
+      definedAs: "",
+      companyBusiness: "",
+      authShares: "",
+      sharePrice: ""
+    });
+
+    const nextComp = () => {
+      context.emit("next");
+    };
+
+    return {
+      entityTypes,
+      form,
+      nextComp,
+    };
+  },
+};
 </script>

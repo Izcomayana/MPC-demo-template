@@ -18,16 +18,7 @@
 </script>
 
 <style scoped>
-  .home {
-    /* border: 2px solid rgb(255, 251, 0); */
-  }
-
-  .sub-agreement {
-    /* border: 2px solid black; */
-  }
-
   h2 {
-    /* border: 2px solid rgb(255, 0, 0); */
     font-weight: 400;
     width: 70%;
     margin: 2rem auto;
@@ -35,16 +26,7 @@
   }
 
   .agreement {
-    /* border: 2px solid blue; */
-    /* display: flex;
-    justify-content: space-between; */
     width: 95%;
     float: right;
-  }
-
-  @media (max-width: 992px) {
-    /* .agreement {
-      flex-direction: column;
-    } */
   }
 </style>

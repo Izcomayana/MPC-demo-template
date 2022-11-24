@@ -2,71 +2,81 @@
   <div class="stage">
     <div class="w-100">
       <div class="border mt-4 p-2 pt-3 rounded">
-        <h3>Disclosed Agreement</h3>    
+        <h3>Disclosed Agreement</h3>
         <form @submit.prevent="" class="legal-entity-form">
-          <div class="form">
-            <label>Agreement description*</label>
-            <textarea v-model="agreementDescription" cols="10" rows="5" required></textarea>
-          </div>
-          <button class="next-btn" type="submit" @click="addDisclosure">Insert Condition <i class="bi bi-forward"></i></button>
+          <BaseTextarea
+            v-model="form.agreementDescription"
+            label="Agreement description"
+          />
+          <button class="next-btn" type="submit" @click="addDisclosure">
+            Insert Condition <i class="bi bi-forward"></i>
+          </button>
         </form>
       </div>
 
       <div class="btns d-flex justify-content-between">
         <button class="next-btn previous" @click="previousComp">Back</button>
-        <button class="next-btn forward" @click="nextComp">Review & Submit</button>
+        <button class="next-btn forward" @click="nextComp">
+          Review & Submit
+        </button>
       </div>
     </div>
 
     <div class="agreement-sheet">
-      <span class="fs-6 fw-bold">
-        Schedule 4
-      </span>
-      <br> <br>
-      <p>
-        Disclosed Agreements:
-      </p>
+      <span class="fs-6 fw-bold"> Schedule 4 </span>
+      <br />
+      <br />
+      <p>Disclosed Agreements:</p>
       <div v-for="(disclosure, index) in disclosures" :key="index">
         <p>{{ index + 11.1 }} {{ disclosure.description }}</p>
       </div>
-      <br> <br> <br>
+      <br />
+      <br />
+      <br />
     </div>
   </div>
 </template>
 
 <script>
-  import { ref } from "vue"
+import { ref } from "vue";
 
-  export default {
-    setup (props, context) {
-      const agreementDescription = ref("");
+import BaseTextarea from "../inputs/BaseTextarea.vue";
 
-      const nextComp = () => {
-        context.emit('next')
+export default {
+  components: {
+    BaseTextarea
+  },
+  setup(props, context) {
+    const form = ref({
+      agreementDescription: ""
+    })
+
+    const nextComp = () => {
+      context.emit("next");
+    };
+
+    const previousComp = () => {
+      context.emit("previous");
+    };
+
+    const disclosures = ref([]);
+
+    const addDisclosure = () => {
+      if (form.value.agreementDescription !== "") {
+        disclosures.value.push({
+          description: form.value.agreementDescription,
+        });
       }
+      form.value.agreementDescription = "";
+    };
 
-      const previousComp = () => {
-        context.emit('previous')
-      }
-
-      const disclosures = ref([]);
-
-      const addDisclosure = () => {
-        if (agreementDescription.value !== "") {
-          disclosures.value.push({
-            description: agreementDescription.value
-          })
-        }
-        agreementDescription.value = ""
-      }
-
-      return {
-        agreementDescription,
-        nextComp,
-        previousComp,
-        disclosures,
-        addDisclosure
-      }
-    }
-  }
+    return {
+      form,
+      nextComp,
+      previousComp,
+      disclosures,
+      addDisclosure,
+    };
+  },
+};
 </script>

@@ -2,22 +2,29 @@
   <div class="stage">
     <div class="w-100">
       <div class="border mt-4 p-2 pt-3 rounded">
-        <h3>Shareholders</h3>    
+        <h3>Shareholders</h3>
         <form @submit.prevent="" class="legal-entity-form">
-          <div class="form">
-            <label>Name*</label>
-            <input v-model="name" type="text" placeholder="Ex: Oluwapelumi Sotoyinbo" >
-          </div>
-          <div class="form">
-            <label>Address</label>
-            <textarea v-model="address" cols="10" rows="5" placeholder="Ex: 123 West End Lane Ikota" ></textarea>
-          </div>
-          <div class="form">
-            <label>Shareholding%*</label>
-            <input v-model="shareholding" type="number" >
-          </div>
+          <BaseInput
+            v-model="form.name"
+            label="Name"
+            type="text"
+            placeholder="Ex: Oluwapelumi Sotoyinbo"
+          />
+          <BaseTextarea
+            v-model="form.address"
+            label="Address"
+            placeholder="Ex: 123 West End Lane Ikota"
+          />
+          <BaseInput
+            v-model="form.shareholding"
+            label="Shareholding%"
+            type="text"
+            placeholder="Ex: 40"
+          />
 
-          <button class="next-btn" type="submit" @click="addShareholder">Insert Condition <i class="bi bi-forward"></i></button>
+          <button class="next-btn" type="submit" @click="addShareholder">
+            Insert Condition <i class="bi bi-forward"></i>
+          </button>
         </form>
       </div>
 
@@ -29,10 +36,11 @@
 
     <div class="agreement-sheet">
       <span class="fs-6 fw-bold">
-        SCHEDULE 2 <br>
+        SCHEDULE 2 <br />
         A. EXISTING SHAREHOLDERS AND SHAREHOLDING
       </span>
-      <br> <br>
+      <br />
+      <br />
       <!-- On tables -->
       <div>
         <table class="table table-hover table-bordered">
@@ -45,73 +53,90 @@
           </thead>
           <tbody v-if="showTable">
             <tr v-for="(shareholder, index) in shareholders" :key="index">
-              <td>{{ shareholder.name }} <i class="bi bi-trash icon"  @click="deleteShareholder(index)"></i></td>
+              <td>
+                {{ shareholder.name }}
+                <i
+                  class="bi bi-trash icon"
+                  @click="deleteShareholder(index)"
+                ></i>
+              </td>
               <td>{{ shareholder.address }}</td>
               <td>{{ shareholder.percent }}</td>
             </tr>
           </tbody>
         </table>
       </div>
-      <br> <br> <br>
+      <br />
+      <br />
+      <br />
     </div>
   </div>
 </template>
 
 <script>
-  import { ref } from "vue"
+import { ref } from "vue";
 
-  export default {
-    setup (props, context) {
-      const name = ref("");
-      const address = ref("");
-      const shareholding = ref("");
+import BaseInput from "../inputs/BaseInput.vue";
+import BaseTextarea from "../inputs/BaseTextarea.vue";
 
-      const shareholders = ref([
-        { name: "", address: "", percent: "" }
-      ]);
+export default {
+  components: {
+    BaseInput,
+    BaseTextarea
+  },
+  setup(props, context) {
+    const form = ref({
+      name: "",
+      address: "",
+      shareholding: ""
+    })
 
-      const nextComp = () => {
-        context.emit('next')
+    const shareholders = ref([{ name: "", address: "", percent: "" }]);
+
+    const nextComp = () => {
+      context.emit("next");
+    };
+
+    const previousComp = () => {
+      context.emit("previous");
+    };
+
+    const showTable = ref(false);
+
+    shareholders.value.shift();
+    const addShareholder = () => {
+      if (
+        (form.value.name !== "") &
+        (form.value.address !== "") &
+        (form.value.shareholding !== "")
+      ) {
+        showTable.value = true;
+        shareholders.value.push({
+          name: form.value.name,
+          address: form.value.address,
+          percent: form.value.shareholding,
+        });
+
+        form.value.name = "";
+        form.value.address = "";
+        form.value.shareholding = "";
       }
+    };
 
-      const previousComp = () => {
-        context.emit('previous');
-      }
+    const deleteShareholder = (index) => {
+      shareholders.value.splice(index, 1);
+    };
 
-      const showTable = ref(false);
-
-      shareholders.value.shift()
-      const addShareholder = () => {
-        if (name.value !== "" & address.value !== "" & shareholding.value !== "") {
-          showTable.value = true
-          shareholders.value.push({
-            name: name.value,
-            address: address.value,
-            percent: shareholding.value
-          });
-
-          name.value = ""
-          address.value = ""
-          shareholding.value = ""
-        }
-      }
-
-      const deleteShareholder = (index) => {
-        shareholders.value.splice(index, 1);
-      }
-
-      return {
-        name,
-        address,
-        shareholding,
-        context,
-        shareholders,
-        showTable,
-        addShareholder,
-        nextComp,
-        previousComp,
-        deleteShareholder
-      }
-    }
-  }
+    return {
+      form,
+      context,
+      shareholders,
+      showTable,
+      addShareholder,
+      nextComp,
+      previousComp,
+      deleteShareholder,
+    };
+  },
+};
 </script>
