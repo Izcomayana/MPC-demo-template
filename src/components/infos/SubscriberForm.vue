@@ -110,7 +110,7 @@
         />
         <BaseTextarea
           v-model="form.regAddress"
-          label="Registration Number"
+          label="Registration Address"
           placeholder="Ex: 123 West End Lane Ikota"
         />
         <BaseInput
@@ -256,8 +256,9 @@ export default {
       form,
       nextComp,
     };
+
   },
-};
+}
 </script>
 
 <style>

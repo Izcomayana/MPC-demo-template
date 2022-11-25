@@ -7,7 +7,8 @@
       rows="5"
       v-bind="$attrs"
       :value="modelValue" 
-      @input="$emit('update:modelValue', $event.target.value)">
+      @input="$emit('update:modelValue', $event.target.value)"
+      required>
     </textarea>
   </div>
 </template>

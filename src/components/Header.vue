@@ -54,10 +54,6 @@
     transition: 250ms ease-in !important;
   }
 
-  .collapse {
-    /* margin-top: 1rem; */
-  }
-
   .navbar-toggler {
     color: #002147 !important;
     background-color: #FFB45E !important;

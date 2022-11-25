@@ -16,6 +16,7 @@
           type="number"
           placeholder="Ex: 5"
           v-if="form.director === 'Yes'"
+          required
         />
         <br />
         <BaseRadioGroup
@@ -41,12 +42,12 @@
         <br />
         <BaseRadioGroup
           v-model="form.antiDilution"
-          name="director limit"
+          name="anti dilution"
           :options="directors"
           label="Will the transaction include an anti-dilution clause?"
         />
 
-        <button class="next-btn" :disabled="!subPrice" @click="nextComp">
+        <button class="next-btn" :disabled="!form.subPrice" @click="nextComp">
           Next
         </button>
       </form>

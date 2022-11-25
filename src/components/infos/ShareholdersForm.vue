@@ -18,7 +18,7 @@
           <BaseInput
             v-model="form.shareholding"
             label="Shareholding%"
-            type="text"
+            type="number"
             placeholder="Ex: 40"
           />
 
@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import { ref } from "vue";
+import { reactive, ref } from "vue";
 
 import BaseInput from "../inputs/BaseInput.vue";
 import BaseTextarea from "../inputs/BaseTextarea.vue";
@@ -85,7 +85,7 @@ export default {
     BaseTextarea
   },
   setup(props, context) {
-    const form = ref({
+    const form = reactive({
       name: "",
       address: "",
       shareholding: ""
@@ -104,22 +104,23 @@ export default {
     const showTable = ref(false);
 
     shareholders.value.shift();
-    const addShareholder = () => {
+
+    const addShareholder = async () => {
       if (
-        (form.value.name !== "") &
-        (form.value.address !== "") &
-        (form.value.shareholding !== "")
+        (form.name !== "") &
+        (form.address !== "") &
+        (form.shareholding !== "")
       ) {
         showTable.value = true;
         shareholders.value.push({
-          name: form.value.name,
-          address: form.value.address,
-          percent: form.value.shareholding,
+          name: form.name,
+          address: form.address,
+          percent: form.shareholding,
         });
 
-        form.value.name = "";
-        form.value.address = "";
-        form.value.shareholding = "";
+        form.name = "";
+        form.address = "";
+        form.shareholding = "";
       }
     };
 
@@ -135,7 +136,7 @@ export default {
       addShareholder,
       nextComp,
       previousComp,
-      deleteShareholder,
+      deleteShareholder
     };
   },
 };

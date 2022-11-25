@@ -2,6 +2,7 @@
   <div class="entity-type">
     <label for="Entity Type">{{ label }}</label>
     <select 
+      required
       :value="modelValue"
       name="Entity Type"
       v-bind="{ 
