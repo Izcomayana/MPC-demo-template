@@ -74,7 +74,7 @@
         <DefinitionsForm  @next="disclosures" @previous="shareholders" />
       </div>
       <div v-if="showDisclosures">
-        <DisclosedAgreementForm  @next="disclosures" @previous="definitions" />
+        <DisclosedAgreementForm  @next="subscriber" @previous="definitions" />
       </div>
     </div>
   </div>

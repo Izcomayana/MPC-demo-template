@@ -18,7 +18,6 @@
         <button class="next-btn previous" @click="previousComp">Back</button>
         <button
           class="next-btn forward"
-          @click="nextComp"
           data-bs-toggle="modal"
           data-bs-target="#staticBackdrop"
         >
@@ -44,12 +43,6 @@
               <h5 class="modal-title" id="staticBackdropLabel">
                 Share Subscription Agreement Contract
               </h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
             </div>
             <div class="modal-body">
               Your contract has been submitted successfully. We'd get back to
@@ -60,8 +53,8 @@
                 type="button"
                 class="btn btn-secondary"
                 data-bs-dismiss="modal"
-              >
-                Close
+                @click="nextComp"
+              > Close
               </button>
             </div>
           </div>
