@@ -6,7 +6,6 @@
     </div>
     <div class="agreement">
       <AgreementInfo />
-      <!-- <AgreementSheet /> -->
     </div>
   </div>
 </template>
@@ -14,7 +13,6 @@
 <script setup>
   import Header from "../components/Header.vue"
   import AgreementInfo from "../components/AgreementInfo.vue";
-  import AgreementSheet from "../components/AgreementSheet.vue";
 </script>
 
 <style scoped>
